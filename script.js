@@ -1,58 +1,55 @@
 document.addEventListener('DOMContentLoaded', () => {
     
-    // Mobile Navigation Management
-    const navToggle = document.querySelector('.mobile-nav-toggle');
-    const mainNav = document.querySelector('.main-nav');
-    const navLinks = document.querySelectorAll('.nav-link');
+    // High-Contrast Menu Mobile System Handler
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navLinksContainer = document.querySelector('.navigation-links');
+    const individualLinks = document.querySelectorAll('.nav-item, .nav-cta');
 
-    if (navToggle && mainNav) {
-        navToggle.addEventListener('click', () => {
-            mainNav.classList.toggle('active');
-            navToggle.classList.toggle('open');
+    if (menuToggle && navLinksContainer) {
+        menuToggle.addEventListener('click', () => {
+            const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
+            menuToggle.setAttribute('aria-expanded', !isExpanded);
+            navLinksContainer.classList.toggle('active');
             
-            // Subtle indicator conversion animation for the hamburger menu icon
-            const bars = navToggle.querySelectorAll('.bar');
-            if(mainNav.classList.contains('active')) {
-                bars[0].style.transform = 'rotate(45deg) translate(6px, 6px)';
-                bars[1].style.opacity = '0';
-                bars[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
+            // Clean mechanical translation lines for mobile menu icons
+            const lines = menuToggle.querySelectorAll('.toggle-line');
+            if(navLinksContainer.classList.contains('active')) {
+                lines[0].style.transform = 'translateY(4.5px) rotate(45deg)';
+                lines[1].style.transform = 'translateY(-4.5px) rotate(-45deg)';
             } else {
-                bars[0].style.transform = 'none';
-                bars[1].style.opacity = '1';
-                bars[2].style.transform = 'none';
+                lines[0].style.transform = 'none';
+                lines[1].style.transform = 'none';
             }
         });
     }
 
-    // Auto-Close Mobile Menu on Link Click Setup
-    navLinks.forEach(link => {
+    // Auto Collapse Interface Layout Hooks
+    individualLinks.forEach(link => {
         link.addEventListener('click', () => {
-            if (mainNav.classList.contains('active')) {
-                navToggle.click();
+            if (navLinksContainer.classList.contains('active')) {
+                menuToggle.click();
             }
         });
     });
 
-    // Client-Side Client Request Interactive Logic Handling
-    const leadForm = document.getElementById('leadForm');
-    const formStatus = document.getElementById('formStatus');
+    // Production Lead-Onboarding Data Intercept Management
+    const briefForm = document.getElementById('corporateBriefForm');
+    const logsContainer = document.getElementById('submissionLogs');
 
-    if (leadForm) {
-        leadForm.addEventListener('submit', (e) => {
-            e.preventDefault();
+    if (briefForm) {
+        briefForm.addEventListener('submit', (event) => {
+            event.preventDefault();
             
-            // Visual loading state cue
-            formStatus.style.color = 'var(--text-muted)';
-            formStatus.innerText = "Transmitting vision parameters...";
+            logsContainer.style.color = 'var(--text-light-muted)';
+            logsContainer.innerText = "Transmitting parameters to partner network...";
 
-            const clientName = document.getElementById('name').value;
-            
-            // Simulating API integration delay for validation workflows
+            const clientEntity = document.getElementById('client_name').value;
+
             setTimeout(() => {
-                formStatus.style.color = '#2F855A';
-                formStatus.innerText = `Thank you, ${clientName}. The Elora team has captured your brief! We will be in touch shortly.`;
-                leadForm.reset();
-            }, 1200);
+                logsContainer.style.color = 'var(--accent-gold)';
+                logsContainer.innerText = `Transmission verified. Thank you, ${clientEntity}. An executive partner will review your brief.`;
+                briefForm.reset();
+            }, 1000);
         });
     }
 });
