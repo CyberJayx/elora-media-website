@@ -1,55 +1,49 @@
 document.addEventListener('DOMContentLoaded', () => {
     
-    // High-Contrast Menu Mobile System Handler
-    const menuToggle = document.querySelector('.menu-toggle');
-    const navLinksContainer = document.querySelector('.navigation-links');
-    const individualLinks = document.querySelectorAll('.nav-item, .nav-cta');
+    // Toggle mobile dropdown on the new pill menu
+    const menuBtn = document.querySelector('.menu-toggle');
+    const navLinks = document.querySelector('.navigation-links');
+    const links = document.querySelectorAll('.navigation-links a');
 
-    if (menuToggle && navLinksContainer) {
-        menuToggle.addEventListener('click', () => {
-            const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
-            menuToggle.setAttribute('aria-expanded', !isExpanded);
-            navLinksContainer.classList.toggle('active');
+    if (menuBtn && navLinks) {
+        menuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('show');
+            const bars = menuBtn.querySelectorAll('.bar');
             
-            // Clean mechanical translation lines for mobile menu icons
-            const lines = menuToggle.querySelectorAll('.toggle-line');
-            if(navLinksContainer.classList.contains('active')) {
-                lines[0].style.transform = 'translateY(4.5px) rotate(45deg)';
-                lines[1].style.transform = 'translateY(-4.5px) rotate(-45deg)';
+            if(navLinks.classList.contains('show')) {
+                bars[0].style.transform = 'translateY(4.5px) rotate(45deg)';
+                bars[1].style.transform = 'translateY(-4.5px) rotate(-45deg)';
             } else {
-                lines[0].style.transform = 'none';
-                lines[1].style.transform = 'none';
+                bars[0].style.transform = 'none';
+                bars[1].style.transform = 'none';
             }
         });
     }
 
-    // Auto Collapse Interface Layout Hooks
-    individualLinks.forEach(link => {
+    // Auto-close menu when a link is clicked
+    links.forEach(link => {
         link.addEventListener('click', () => {
-            if (navLinksContainer.classList.contains('active')) {
-                menuToggle.click();
+            if (navLinks.classList.contains('show')) {
+                menuBtn.click();
             }
         });
     });
 
-    // Production Lead-Onboarding Data Intercept Management
-    const briefForm = document.getElementById('corporateBriefForm');
-    const logsContainer = document.getElementById('submissionLogs');
+    // Form handling
+    const form = document.getElementById('creativeForm');
+    const msg = document.getElementById('formMessage');
 
-    if (briefForm) {
-        briefForm.addEventListener('submit', (event) => {
-            event.preventDefault();
-            
-            logsContainer.style.color = 'var(--text-light-muted)';
-            logsContainer.innerText = "Transmitting parameters to partner network...";
-
-            const clientEntity = document.getElementById('client_name').value;
+    if (form) {
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            msg.style.color = 'var(--neon-blue)';
+            msg.innerText = "Routing your brief to the creative team...";
 
             setTimeout(() => {
-                logsContainer.style.color = 'var(--accent-gold)';
-                logsContainer.innerText = `Transmission verified. Thank you, ${clientEntity}. An executive partner will review your brief.`;
-                briefForm.reset();
-            }, 1000);
+                msg.style.color = 'var(--neon-lime)';
+                msg.innerText = "Brief captured! We'll be in touch.";
+                form.reset();
+            }, 1500);
         });
     }
 });
